@@ -16,5 +16,8 @@ module.exports = function(content) {
     name = Path.basename(this.resourcePath, ".locale.json");
 
     // Assuming jQuery and the i18n library has already been attached to the window, we pass the JSON inline.
-    return "$.i18n().load(" + content + ", '" + name + "');";
+    return "$.i18n().load(" + content + ", '" + name + "');"
+        // Support hot module replacement.
+        // This doesn't delete keys that have been removed, but that shouldn't be a common case. 
+        + " if (module.hot) module.hot.accept();";  
 };
